@@ -1,7 +1,9 @@
 package com.santander.challenge.transactions.application.query;
 
 import com.santander.challenge.transactions.adapters.dto.BalanceResponse;
+import com.santander.challenge.transactions.adapters.dto.TransactionResponse;
 import com.santander.challenge.transactions.adapters.mapper.BalanceMapper;
+import com.santander.challenge.transactions.adapters.mapper.TransactionMapper;
 import com.santander.challenge.transactions.domain.model.Account;
 import com.santander.challenge.transactions.domain.model.Transaction;
 import com.santander.challenge.transactions.domain.repository.AccountRepository;
@@ -30,6 +32,9 @@ public class GetBalanceAndHistoryUseCase {
 
         List<Transaction> history = transactionRepository.findByAccountId(accountId);
 
-        return BalanceMapper.toBalanceResponse(account.getBalance(), history);
+        return BalanceMapper.toBalanceResponse(
+                account.getBalance(),
+                TransactionMapper.toTransactionResponseList(history)
+        );
     }
 }

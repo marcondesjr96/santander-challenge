@@ -31,10 +31,9 @@ public class PayBillUseCase {
                 .orElseThrow(AccountNotFoundException::new);
 
         account.pay(amount);
-        accountRepository.save(account);
+        accountRepository.update(account);
 
         Transaction transaction = new Transaction(
-                UUID.randomUUID(),
                 accountId,
                 TransactionTypeEnum.PAYMENT,
                 amount,
