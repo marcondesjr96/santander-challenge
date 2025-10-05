@@ -22,6 +22,13 @@ public class Transaction {
         this.occurredAt = occurredAt;
     }
 
+    public Transaction(UUID accountId, TransactionTypeEnum type, BigDecimal amount, LocalDateTime occurredAt) {
+        this.accountId = accountId;
+        this.type = type;
+        this.amount = amount;
+        this.occurredAt = occurredAt;
+    }
+
     public UUID getId() {
         return id;
     }

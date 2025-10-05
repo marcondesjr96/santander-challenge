@@ -4,13 +4,12 @@ import com.santander.challenge.transactions.domain.model.Cpf;
 import com.santander.challenge.transactions.domain.model.User;
 import com.santander.challenge.transactions.infrastructure.persistence.entity.UserEntity;
 
-import java.util.UUID;
-
 public class UserMapper {
 
     public static User toDomain(UserEntity entity) {
         if (entity == null) return null;
         return new User(
+                entity.getId(),
                 entity.getFullName(),
                 new Cpf(entity.getCpf()),
                 entity.getLogin(),

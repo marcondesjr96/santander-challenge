@@ -1,5 +1,7 @@
 package com.santander.challenge.transactions.infrastructure.persistence.jpa.impl;
 
+import com.santander.challenge.transactions.domain.exception.AccountNotFoundException;
+import com.santander.challenge.transactions.domain.exception.UserNotFoundException;
 import com.santander.challenge.transactions.domain.model.Account;
 import com.santander.challenge.transactions.domain.repository.AccountRepository;
 import com.santander.challenge.transactions.infrastructure.persistence.entity.AccountEntity;
@@ -27,8 +29,16 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void save(Account account) {
-        UserEntity userEntity = userRepository.findById(account.getUserId()).orElseThrow();
+        UserEntity userEntity = userRepository.findById(account.getUserId()).orElseThrow(UserNotFoundException::new);
         AccountEntity accountEntity = AccountMapper.toEntity(account, userEntity);
+        springDataRepository.save(accountEntity);
+    }
+
+    @Override
+    public void update(Account account) {
+        Account existing = findById(account.getId()).orElseThrow(AccountNotFoundException::new);
+        UserEntity userEntity = userRepository.findById(account.getUserId()).orElseThrow(UserNotFoundException::new);
+        AccountEntity accountEntity = AccountMapper.toEntityUpdate(existing, userEntity);
         springDataRepository.save(accountEntity);
     }
 }

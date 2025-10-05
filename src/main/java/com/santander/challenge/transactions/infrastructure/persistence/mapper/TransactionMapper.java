@@ -20,10 +20,10 @@ public class TransactionMapper {
         );
     }
 
+    //TODO usar builder
     public static TransactionEntity toEntity(Transaction domain, AccountEntity accountEntity) {
         if (domain == null) return null;
         TransactionEntity entity = new TransactionEntity();
-        entity.setId(domain.getId() != null ? domain.getId() : UUID.randomUUID());
         entity.setAccount(accountEntity);
         entity.setAmount(domain.getAmount());
         entity.setOccurredAt(domain.getOccurredAt());

@@ -31,10 +31,9 @@ public class DepositMoneyUseCase {
         }
 
         account.deposit(amount, new BigDecimal("0.0102"));
-        accountRepository.save(account);
+        accountRepository.update(account);
 
         Transaction transaction = new Transaction(
-                UUID.randomUUID(),
                 accountId,
                 TransactionTypeEnum.DEPOSIT,
                 amount,
