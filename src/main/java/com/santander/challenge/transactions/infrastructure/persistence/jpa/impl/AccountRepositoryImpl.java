@@ -36,9 +36,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void update(Account account) {
-        Account existing = findById(account.getId()).orElseThrow(AccountNotFoundException::new);
         UserEntity userEntity = userRepository.findById(account.getUserId()).orElseThrow(UserNotFoundException::new);
-        AccountEntity accountEntity = AccountMapper.toEntityUpdate(existing, userEntity);
+        AccountEntity accountEntity = AccountMapper.toEntityUpdate(account, userEntity);
         springDataRepository.save(accountEntity);
     }
 }
