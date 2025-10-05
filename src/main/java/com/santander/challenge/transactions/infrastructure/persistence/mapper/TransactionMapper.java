@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class TransactionMapper {
 
-    public Transaction toDomain(TransactionEntity entity) {
+    public static Transaction toDomain(TransactionEntity entity) {
         if (entity == null) return null;
         return new Transaction(
                 entity.getId(),
@@ -20,7 +20,7 @@ public class TransactionMapper {
         );
     }
 
-    public TransactionEntity toEntity(Transaction domain, AccountEntity accountEntity) {
+    public static TransactionEntity toEntity(Transaction domain, AccountEntity accountEntity) {
         if (domain == null) return null;
         TransactionEntity entity = new TransactionEntity();
         entity.setId(domain.getId() != null ? domain.getId() : UUID.randomUUID());

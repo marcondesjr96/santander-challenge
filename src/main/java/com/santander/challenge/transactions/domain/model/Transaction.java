@@ -8,11 +8,11 @@ import java.util.UUID;
 
 
 public class Transaction {
-    private final UUID id;
-    private final UUID accountId;
-    private final TransactionTypeEnum type;
-    private final BigDecimal amount;
-    private final LocalDateTime occurredAt;
+    private UUID id;
+    private UUID accountId;
+    private TransactionTypeEnum type;
+    private BigDecimal amount;
+    private LocalDateTime occurredAt;
 
     public Transaction(UUID id, UUID accountId, TransactionTypeEnum type, BigDecimal amount, LocalDateTime occurredAt) {
         this.id = id;

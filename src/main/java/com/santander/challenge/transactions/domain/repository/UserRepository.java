@@ -9,5 +9,5 @@ public interface UserRepository {
     Optional<User> findById(UUID id);
     Optional<User> findByLogin(String login);
     Optional<User> findByCpf(String cpf);
-    void save(User user);
+    User save(User user);
 }

@@ -3,12 +3,19 @@ package com.santander.challenge.transactions.domain.model;
 import java.util.UUID;
 
 public class User {
-    private final UUID id;
-    private final String fullName;
-    private final Cpf cpf;
-    private final String login;
-    private final String passwordHash;
+    private UUID id;
+    private String fullName;
+    private Cpf cpf;
+    private String login;
+    private String passwordHash;
 
+
+    public User(String fullName, Cpf cpf, String login, String passwordHash) {
+        this.fullName = fullName;
+        this.cpf = cpf;
+        this.login = login;
+        this.passwordHash = passwordHash;
+    }
 
     public User(UUID id, String fullName, Cpf cpf, String login, String passwordHash) {
         this.id = id;

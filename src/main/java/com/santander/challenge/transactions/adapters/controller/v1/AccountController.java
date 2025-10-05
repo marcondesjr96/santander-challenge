@@ -1,5 +1,8 @@
 package com.santander.challenge.transactions.adapters.controller.v1;
 
+import com.santander.challenge.transactions.adapters.dto.BalanceResponse;
+import com.santander.challenge.transactions.adapters.dto.DepositRequest;
+import com.santander.challenge.transactions.adapters.dto.PayRequest;
 import com.santander.challenge.transactions.application.command.DepositMoneyUseCase;
 import com.santander.challenge.transactions.application.command.PayBillUseCase;
 import com.santander.challenge.transactions.application.query.GetBalanceAndHistoryUseCase;
@@ -34,10 +37,7 @@ public class AccountController {
 
     @GetMapping("/{accountId}/balance")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Object> getBalance(@PathVariable UUID accountId) {
+    public BalanceResponse getBalance(@PathVariable UUID accountId) {
         return getBalanceAndHistoryUseCase.execute(accountId);
     }
-
-    private record DepositRequest(BigDecimal amount) {}
-    private record PayRequest(BigDecimal amount) {}
 }

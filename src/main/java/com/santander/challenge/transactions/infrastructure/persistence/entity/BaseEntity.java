@@ -2,6 +2,8 @@ package com.santander.challenge.transactions.infrastructure.persistence.entity;
 
 import com.santander.challenge.transactions.domain.model.enums.StatusEnum;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -40,6 +42,7 @@ public abstract class BaseEntity implements Serializable {
     private LocalDateTime updateDate;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
     @PrePersist

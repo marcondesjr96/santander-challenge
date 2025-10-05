@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class AccountMapper {
 
-    public Account toDomain(AccountEntity entity) {
+    public static Account toDomain(AccountEntity entity) {
         if (entity == null) return null;
         return new Account(
                 entity.getId(),
@@ -17,7 +17,7 @@ public class AccountMapper {
         );
     }
 
-    public AccountEntity toEntity(Account domain, UserEntity userEntity) {
+    public static AccountEntity toEntity(Account domain, UserEntity userEntity) {
         if (domain == null) return null;
         AccountEntity entity = new AccountEntity();
         entity.setId(domain.getId() != null ? domain.getId() : UUID.randomUUID());

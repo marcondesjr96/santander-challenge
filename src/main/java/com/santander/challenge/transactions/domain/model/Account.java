@@ -8,8 +8,8 @@ import java.util.UUID;
 
 
 public class Account {
-    private final UUID id;
-    private final UUID userId;
+    private UUID id;
+    private UUID userId;
     private BigDecimal balance;
 
     public Account(UUID id, UUID userId, BigDecimal balance) {

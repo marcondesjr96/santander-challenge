@@ -1,5 +1,7 @@
 package com.santander.challenge.transactions.application.command;
 
+import com.santander.challenge.transactions.adapters.dto.RegisterUserResponse;
+import com.santander.challenge.transactions.adapters.mapper.RegisterMapper;
 import com.santander.challenge.transactions.domain.exception.CPFAlreadyRegisteredException;
 import com.santander.challenge.transactions.domain.exception.InvalidCpfException;
 import com.santander.challenge.transactions.domain.exception.LoginAlreadyExistsException;
@@ -19,7 +21,7 @@ public class RegisterUserUseCase {
 //    private final PasswordEncoder passwordEncoder;
 
 
-    public UUID execute(String fullName, String rawCpf, String login, String rawPassword) {
+    public RegisterUserResponse execute(String fullName, String rawCpf, String login, String rawPassword) {
         try {
             Cpf cpf = new Cpf(rawCpf);
 
@@ -30,10 +32,10 @@ public class RegisterUserUseCase {
                 .ifPresent(u -> { throw new CPFAlreadyRegisteredException(); });
 
 //            String hash = passwordEncoder.encode(rawPassword);
-            User user = new User(UUID.randomUUID(), fullName, cpf, login, rawPassword);
+            User user = new User(fullName, cpf, login, rawPassword);
 
-            userRepository.save(user);
-            return user.getId();
+            User userSaved = userRepository.save(user);
+            return RegisterMapper.toResponse(userSaved);
 
         } catch (IllegalArgumentException e) {
             throw new InvalidCpfException();

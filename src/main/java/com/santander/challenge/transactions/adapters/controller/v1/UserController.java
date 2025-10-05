@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public RegisterUserResponse register(@RequestBody RegisterUserRequest request) {
-        registerUserUseCase.execute(
+        return registerUserUseCase.execute(
                 request.fullName(),
                 request.cpf(),
                 request.login(),
