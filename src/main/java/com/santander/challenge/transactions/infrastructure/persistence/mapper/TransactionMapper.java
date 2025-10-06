@@ -5,8 +5,6 @@ import com.santander.challenge.transactions.domain.model.enums.TransactionTypeEn
 import com.santander.challenge.transactions.infrastructure.persistence.entity.AccountEntity;
 import com.santander.challenge.transactions.infrastructure.persistence.entity.TransactionEntity;
 
-import java.util.UUID;
-
 public class TransactionMapper {
 
     public static Transaction toDomain(TransactionEntity entity) {
@@ -20,14 +18,14 @@ public class TransactionMapper {
         );
     }
 
-    //TODO usar builder
-    public static TransactionEntity toEntity(Transaction domain, AccountEntity accountEntity) {
-        if (domain == null) return null;
-        TransactionEntity entity = new TransactionEntity();
-        entity.setAccount(accountEntity);
-        entity.setAmount(domain.getAmount());
-        entity.setOccurredAt(domain.getOccurredAt());
-        entity.setType(TransactionTypeEnum.getByType(domain.getType().getType()));
-        return entity;
+    public static TransactionEntity toEntity(Transaction transaction, AccountEntity accountEntity) {
+        if (transaction == null) return null;
+        return TransactionEntity
+                .builder()
+                .account(accountEntity)
+                .amount(transaction.getAmount())
+                .occurredAt(transaction.getOccurredAt())
+                .type(TransactionTypeEnum.getByType(transaction.getType().getType()))
+                .build();
     }
 }

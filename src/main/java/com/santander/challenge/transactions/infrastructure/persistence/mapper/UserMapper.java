@@ -17,14 +17,14 @@ public class UserMapper {
         );
     }
 
-    //TODO usar o builder
-    public static UserEntity toEntity(User domain) {
-        if (domain == null) return null;
-        UserEntity entity = new UserEntity();
-        entity.setFullName(domain.getFullName());
-        entity.setCpf(domain.getCpf().getValue());
-        entity.setLogin(domain.getLogin());
-        entity.setPasswordHash(domain.getPasswordHash());
-        return entity;
+    public static UserEntity toEntity(User user) {
+        if (user == null) return null;
+        return UserEntity
+                .builder()
+                .fullName(user.getFullName())
+                .cpf(user.getCpf().getValue())
+                .login(user.getLogin())
+                .passwordHash(user.getPasswordHash())
+                .build();
     }
 }

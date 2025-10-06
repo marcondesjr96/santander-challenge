@@ -5,6 +5,8 @@ import com.santander.challenge.transactions.domain.model.enums.TransactionTypeEn
 import java.math.BigDecimal;
 
 public record TransactionResponse(
-        TransactionTypeEnum type, BigDecimal amount, String occurredAt
+        TransactionTypeEnum type,
+        BigDecimal amount,
+        String occurredAt
 ) {
 }

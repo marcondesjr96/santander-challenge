@@ -2,6 +2,7 @@ package com.santander.challenge.transactions.application.command;
 
 import com.santander.challenge.transactions.adapters.dto.BalanceResponse;
 import com.santander.challenge.transactions.adapters.dto.TransactionResponse;
+import com.santander.challenge.transactions.adapters.mapper.BalanceMapper;
 import com.santander.challenge.transactions.adapters.mapper.TransactionMapper;
 import com.santander.challenge.transactions.domain.model.Account;
 import com.santander.challenge.transactions.domain.model.Transaction;
@@ -13,6 +14,7 @@ import com.santander.challenge.transactions.domain.exception.ValidatePositiveAmo
 import com.santander.challenge.transactions.infrastructure.cache.RedisCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,6 +30,7 @@ public class DepositMoneyUseCase {
     private final RedisCacheService redisCacheService;
 
 
+    @Transactional
     public void execute(UUID accountId, BigDecimal amount) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(AccountNotFoundException::new);
@@ -50,7 +53,7 @@ public class DepositMoneyUseCase {
         List<Transaction> transactionList = transactionRepository.findByAccountId(accountId);
         List<TransactionResponse> transactionResponseList = TransactionMapper.toTransactionResponseList(transactionList);
 
-        BalanceResponse balanceResponse = new BalanceResponse(account.getBalance(),transactionResponseList);
+        BalanceResponse balanceResponse = BalanceMapper.toBalanceResponse(account.getBalance(),transactionResponseList);
 
         redisCacheService.save(balanceResponse, accountId);
     }

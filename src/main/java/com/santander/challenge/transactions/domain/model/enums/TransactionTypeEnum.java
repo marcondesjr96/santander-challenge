@@ -1,12 +1,7 @@
 package com.santander.challenge.transactions.domain.model.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.Arrays;
 
-@AllArgsConstructor
-@Getter
 public enum TransactionTypeEnum {
     DEPOSIT(1L, "Deposit"),
     PAYMENT(2L, "Payment");
@@ -26,5 +21,18 @@ public enum TransactionTypeEnum {
                 .filter(value -> value.getType().equalsIgnoreCase(type))
                 .findFirst()
                 .orElse(null);
+    }
+
+    TransactionTypeEnum(Long id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
     }
 }

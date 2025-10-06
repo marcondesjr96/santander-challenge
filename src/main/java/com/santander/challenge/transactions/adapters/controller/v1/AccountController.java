@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/accounts")
-@RequiredArgsConstructor
 public class AccountController {
 
     private final DepositMoneyUseCase depositMoneyUseCase;

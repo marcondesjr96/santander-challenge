@@ -9,6 +9,7 @@ import com.santander.challenge.transactions.domain.repository.AccountRepository;
 import com.santander.challenge.transactions.domain.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class PayBillUseCase {
     private final TransactionRepository transactionRepository;
 
 
+    @Transactional
     public void execute(UUID accountId, BigDecimal amount) {
         if (amount == null || amount.signum() <= 0) {
             throw new InvalidPaymentAmountException();

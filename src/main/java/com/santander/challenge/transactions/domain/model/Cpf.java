@@ -1,12 +1,7 @@
 package com.santander.challenge.transactions.domain.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import java.util.Objects;
 
-@Getter
-@EqualsAndHashCode
-@ToString
 public final class Cpf {
     private final String value;
 
@@ -34,5 +29,28 @@ public final class Cpf {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cpf cpf = (Cpf) o;
+        return Objects.equals(value, cpf.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Cpf{" +
+                "value='" + value + '\'' +
+                '}';
     }
 }

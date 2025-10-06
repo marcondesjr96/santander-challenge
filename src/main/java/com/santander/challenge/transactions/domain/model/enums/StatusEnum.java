@@ -1,11 +1,7 @@
 package com.santander.challenge.transactions.domain.model.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.Arrays;
-@AllArgsConstructor
-@Getter
+
 public enum StatusEnum {
 
     ACTIVE(1L, "Active"),
@@ -28,4 +24,16 @@ public enum StatusEnum {
                 .orElse(null);
     }
 
+    StatusEnum(Long id, String status) {
+        this.id = id;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }

@@ -16,15 +16,15 @@ public class AccountMapper {
         );
     }
 
-    public static AccountEntity toEntity(Account domain, UserEntity userEntity) {
-        if (domain == null) return null;
-        AccountEntity entity = new AccountEntity();
-        entity.setUser(userEntity);
-        entity.setBalance(domain.getBalance());
-        return entity;
+    public static AccountEntity toEntity(Account account, UserEntity userEntity) {
+        if (account == null) return null;
+        return AccountEntity
+                .builder()
+                .user(userEntity)
+                .balance(account.getBalance())
+                .build();
     }
 
-    //TODO user Builder
     public static AccountEntity toEntityUpdate(Account account, UserEntity userEntity) {
         if (account == null) return null;
         return AccountEntity
