@@ -6,7 +6,6 @@ import lombok.Getter;
 public enum ErrorCodeEnum {
 
     T0001("T0001", "Amount must be positive."),
-    T0002("T0002", "Insufficient balance to complete the operation."),
     T0003("T0003", "Invalid payment amount."),
 
     A0001("A0001", "Account not found."),
