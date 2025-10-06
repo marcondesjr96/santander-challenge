@@ -23,16 +23,16 @@ public class AccountController {
     private final PayBillUseCase payBillUseCase;
     private final GetBalanceAndHistoryUseCase getBalanceAndHistoryUseCase;
 
-    @PostMapping("/{accountId}/deposit")
+    @PostMapping("/deposit")
     @ResponseStatus(HttpStatus.OK)
-    public void deposit(@PathVariable UUID accountId, @RequestBody DepositRequest request) {
-        depositMoneyUseCase.execute(accountId, request.amount());
+    public void deposit(@RequestBody DepositRequest request) {
+        depositMoneyUseCase.execute( request.amount());
     }
 
-    @PostMapping("/{accountId}/pay")
+    @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
-    public void pay(@PathVariable UUID accountId, @RequestBody PayRequest request) {
-        payBillUseCase.execute(accountId, request.amount());
+    public void pay(@RequestBody PayRequest request) {
+        payBillUseCase.execute(request.amount());
     }
 
     @GetMapping("/{accountId}/balance")

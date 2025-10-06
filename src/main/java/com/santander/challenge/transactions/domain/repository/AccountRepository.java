@@ -8,7 +8,9 @@ import java.util.UUID;
 public interface AccountRepository {
     Optional<Account> findById(UUID id);
 
-    void save(Account account);
+    Optional<Account>findByUserId(UUID userId);
+
+    Account save(Account account);
 
     void update(Account account);
 }

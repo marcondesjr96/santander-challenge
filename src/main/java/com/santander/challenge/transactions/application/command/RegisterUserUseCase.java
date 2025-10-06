@@ -44,8 +44,8 @@ public class RegisterUserUseCase {
             User userSaved = userRepository.save(user);
 
             Account account = new Account(userSaved.getId(), BigDecimal.ZERO);
-            accountRepository.save(account);
-            return RegisterMapper.toResponse(userSaved);
+            Account accountSaved = accountRepository.save(account);
+            return RegisterMapper.toResponse(userSaved, accountSaved.getId());
 
         } catch (IllegalArgumentException e) {
             throw new InvalidCpfException();

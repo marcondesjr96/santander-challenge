@@ -28,10 +28,15 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void save(Account account) {
+    public Optional<Account> findByUserId(UUID userId) {
+        return springDataRepository.findByUserId(userId).map(AccountMapper::toDomain);
+    }
+
+    @Override
+    public Account save(Account account) {
         UserEntity userEntity = userRepository.findById(account.getUserId()).orElseThrow(UserNotFoundException::new);
         AccountEntity accountEntity = AccountMapper.toEntity(account, userEntity);
-        springDataRepository.save(accountEntity);
+        return AccountMapper.toDomain(springDataRepository.save(accountEntity));
     }
 
     @Override

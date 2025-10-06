@@ -8,10 +8,12 @@ import com.santander.challenge.transactions.domain.exception.AccountNotFoundExce
 import com.santander.challenge.transactions.domain.exception.InvalidPaymentAmountException;
 import com.santander.challenge.transactions.domain.model.Account;
 import com.santander.challenge.transactions.domain.model.Transaction;
+import com.santander.challenge.transactions.domain.model.User;
 import com.santander.challenge.transactions.domain.model.enums.TransactionTypeEnum;
 import com.santander.challenge.transactions.domain.repository.AccountRepository;
 import com.santander.challenge.transactions.domain.repository.TransactionRepository;
 import com.santander.challenge.transactions.infrastructure.cache.RedisCacheService;
+import com.santander.challenge.transactions.infrastructure.security.AuthenticatedUserProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,33 +30,36 @@ public class PayBillUseCase {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final RedisCacheService redisCacheService;
+    private final AuthenticatedUserProvider authenticatedUserProvider;
 
 
     @Transactional
-    public void execute(UUID accountId, BigDecimal amount) {
+    public void execute(BigDecimal amount) {
+        User authenticatedUser = authenticatedUserProvider.getAuthenticatedUser();
+
         if (amount == null || amount.signum() <= 0) {
             throw new InvalidPaymentAmountException();
         }
 
-        Account account = accountRepository.findById(accountId)
+        Account account = accountRepository.findByUserId(authenticatedUser.getId())
                 .orElseThrow(AccountNotFoundException::new);
 
         account.pay(amount);
         accountRepository.update(account);
 
         Transaction transaction = new Transaction(
-                accountId,
+                account.getId(),
                 TransactionTypeEnum.PAYMENT,
                 amount,
                 LocalDateTime.now()
         );
         transactionRepository.save(transaction);
 
-        List<Transaction> transactionList = transactionRepository.findByAccountId(accountId);
+        List<Transaction> transactionList = transactionRepository.findByAccountId(account.getId());
         List<TransactionResponse> transactionResponseList = TransactionMapper.toTransactionResponseList(transactionList);
 
         BalanceResponse balanceResponse = BalanceMapper.toBalanceResponse(account.getBalance(),transactionResponseList);
 
-        redisCacheService.save(balanceResponse, accountId);
+        redisCacheService.save(balanceResponse, account.getId());
     }
 }
