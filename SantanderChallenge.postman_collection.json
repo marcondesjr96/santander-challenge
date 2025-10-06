@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"fullName\":\"Marcondes Junior\",\n    \"cpf\":\"387.913.640-86\",\n    \"login\":\"marcondes1\",\n    \"password\":\"minha-senha123\"\n  }"
+					"raw": "{\n    \"fullName\":\"Marcondes Junior\",\n    \"cpf\":\"026.219.880-08\",\n    \"login\":\"marcondestest\",\n    \"password\":\"minha-senha123\"\n  }"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/v1/users/register",
@@ -32,36 +32,6 @@
 						"v1",
 						"users",
 						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "createAccount",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"userId\": \"9f5a24e3-8d74-4cd0-a4d8-12c3e3a7f2f9\"\n      }"
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v1/accounts",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"accounts"
 					]
 				}
 			},
@@ -230,7 +200,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n    \"login\":\"marcondes1\",\n    \"password\":\"minha-senha123\"\n    }"
+					"raw": "    {\n    \"login\":\"marcondestest\",\n    \"password\":\"minha-senha123\"\n    }"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/v1/auth/login",
