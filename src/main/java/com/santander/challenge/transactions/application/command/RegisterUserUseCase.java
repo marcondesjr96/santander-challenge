@@ -12,6 +12,7 @@ import com.santander.challenge.transactions.domain.repository.AccountRepository;
 import com.santander.challenge.transactions.domain.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class RegisterUserUseCase {
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
@@ -37,8 +38,8 @@ public class RegisterUserUseCase {
             userRepository.findByCpf(cpf.getValue())
                 .ifPresent(u -> { throw new CPFAlreadyRegisteredException(); });
 
-//            String hash = passwordEncoder.encode(rawPassword);
-            User user = new User(fullName, cpf, login, rawPassword);
+            String hash = passwordEncoder.encode(rawPassword);
+            User user = new User(fullName, cpf, login, hash);
 
             User userSaved = userRepository.save(user);
 
