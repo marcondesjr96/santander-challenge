@@ -26,8 +26,4 @@ public class RedisCacheService {
     public Optional<BalanceResponse> findByAccountId(UUID accountId) {
         return Optional.ofNullable(redisTemplate.opsForValue().get(buildKey(accountId)));
     }
-
-    public void delete(UUID accountId) {
-        redisTemplate.delete(buildKey(accountId));
-    }
 }
