@@ -2,7 +2,9 @@ package com.santander.challenge.transactions.application.query;
 
 import com.santander.challenge.transactions.adapters.dto.BalanceResponse;
 import com.santander.challenge.transactions.domain.exception.BalanceNotFoundException;
+import com.santander.challenge.transactions.domain.model.User;
 import com.santander.challenge.transactions.infrastructure.cache.RedisCacheService;
+import com.santander.challenge.transactions.infrastructure.security.AuthenticatedUserProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,36 +26,41 @@ class GetBalanceAndHistoryUseCaseTest {
     @Mock
     private RedisCacheService redisCacheService;
 
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
+
     @InjectMocks
     private GetBalanceAndHistoryUseCase getBalanceAndHistoryUseCase;
 
-    private UUID accountId;
+    private User authenticatedUser;
     private BalanceResponse cachedResponse;
 
     @BeforeEach
     void setup() {
-        accountId = UUID.randomUUID();
+        authenticatedUser = new User("Marcondes Junior", null, "marcondes", "hashed");
         cachedResponse = new BalanceResponse(BigDecimal.valueOf(500.00), List.of());
     }
 
     @Test
     void shouldReturnBalanceFromCacheWhenFound() {
-        when(redisCacheService.findByAccountId(accountId)).thenReturn(Optional.of(cachedResponse));
+        when(authenticatedUserProvider.getAuthenticatedUser()).thenReturn(authenticatedUser);
+        when(redisCacheService.findByUserId(authenticatedUser.getId())).thenReturn(Optional.of(cachedResponse));
 
-        BalanceResponse response = getBalanceAndHistoryUseCase.execute(accountId);
+        BalanceResponse response = getBalanceAndHistoryUseCase.execute();
 
         assertThat(response).isNotNull();
         assertThat(response.totalBalance()).isEqualByComparingTo("500.00");
-        verify(redisCacheService).findByAccountId(accountId);
+        verify(redisCacheService).findByUserId(authenticatedUser.getId());
     }
 
     @Test
     void shouldThrowExceptionWhenBalanceNotFound() {
-        when(redisCacheService.findByAccountId(accountId)).thenReturn(Optional.empty());
+        when(authenticatedUserProvider.getAuthenticatedUser()).thenReturn(authenticatedUser);
+        when(redisCacheService.findByUserId(authenticatedUser.getId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> getBalanceAndHistoryUseCase.execute(accountId))
+        assertThatThrownBy(() -> getBalanceAndHistoryUseCase.execute())
                 .isInstanceOf(BalanceNotFoundException.class);
 
-        verify(redisCacheService).findByAccountId(accountId);
+        verify(redisCacheService).findByUserId(authenticatedUser.getId());
     }
 }

@@ -35,9 +35,9 @@ public class AccountController {
         payBillUseCase.execute(request.amount());
     }
 
-    @GetMapping("/{accountId}/balance")
+    @GetMapping("/balance")
     @ResponseStatus(HttpStatus.OK)
-    public BalanceResponse getBalance(@PathVariable UUID accountId) {
-        return getBalanceAndHistoryUseCase.execute(accountId);
+    public BalanceResponse getBalance() {
+        return getBalanceAndHistoryUseCase.execute();
     }
 }

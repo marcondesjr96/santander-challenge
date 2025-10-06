@@ -58,7 +58,7 @@ class DepositMoneyUseCaseTest {
 
         verify(accountRepository).update(account);
         verify(transactionRepository).save(any(Transaction.class));
-        verify(redisCacheService).save(any(BalanceResponse.class), eq(account.getId()));
+        verify(redisCacheService).save(any(BalanceResponse.class), eq(user.getId()));
     }
 
     @Test

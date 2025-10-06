@@ -15,15 +15,15 @@ public class RedisCacheService {
 
     private final RedisTemplate<String, BalanceResponse> redisTemplate;
 
-    private String buildKey(UUID accountId) {
-        return "account:" + accountId;
+    private String buildKey(UUID userId) {
+        return "user:" + userId;
     }
 
-    public void save(BalanceResponse balanceResponse, UUID accountId) {
-        redisTemplate.opsForValue().set(buildKey(accountId), balanceResponse);
+    public void save(BalanceResponse balanceResponse, UUID userId) {
+        redisTemplate.opsForValue().set(buildKey(userId), balanceResponse);
     }
 
-    public Optional<BalanceResponse> findByAccountId(UUID accountId) {
-        return Optional.ofNullable(redisTemplate.opsForValue().get(buildKey(accountId)));
+    public Optional<BalanceResponse> findByUserId(UUID userId) {
+        return Optional.ofNullable(redisTemplate.opsForValue().get(buildKey(userId)));
     }
 }

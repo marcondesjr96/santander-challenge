@@ -60,6 +60,6 @@ public class PayBillUseCase {
 
         BalanceResponse balanceResponse = BalanceMapper.toBalanceResponse(account.getBalance(),transactionResponseList);
 
-        redisCacheService.save(balanceResponse, account.getId());
+        redisCacheService.save(balanceResponse, authenticatedUser.getId());
     }
 }
