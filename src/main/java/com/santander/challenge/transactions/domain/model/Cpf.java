@@ -1,5 +1,7 @@
 package com.santander.challenge.transactions.domain.model;
 
+import com.santander.challenge.transactions.domain.exception.InvalidCpfException;
+
 import java.util.Objects;
 
 public final class Cpf {
@@ -7,7 +9,7 @@ public final class Cpf {
 
     public Cpf(String raw) {
         String digits = raw == null ? "" : raw.replaceAll("\\D", "");
-        if (!isValid(digits)) throw new IllegalArgumentException("Invalid CPF");
+        if (!isValid(digits)) throw new InvalidCpfException();
         this.value = digits;
     }
 
